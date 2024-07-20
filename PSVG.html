@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IVA, ISD y Comisión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculadora de IVA, ISD y Comisión</h2>
+        <label for="price">Precio del producto:</label>
+        <input type="number" id="price" placeholder="Ingrese el precio del producto">
+        <label for="commission">Comisión:</label>
+        <input type="number" id="commission" placeholder="Ingrese el valor de la comisión">
+        <button onclick="calculate()">Calcular</button>
+        <div class="result" id="result"></div>
+    </div>
+    
+    <script>
+        function calculate() {
+            const price = parseFloat(document.getElementById('price').value);
+            const ivaPercentage = 8.8; // Porcentaje de IVA predefinido
+            const isdPercentage = 5;  // Porcentaje de ISD predefinido
+            let commission = parseFloat(document.getElementById('commission').value); // Valor de la Comisión ingresado
+            
+            if (isNaN(price)) {
+                alert('Por favor, ingrese un valor válido para el precio del producto.');
+                return;
+            }
+
+            if (isNaN(commission)) {
+                commission = 0; // Asume comisión de cero si está vacío o no es un número
+            }
+
+            const iva = price * (ivaPercentage / 100);
+            const isd = (price + iva) * (isdPercentage / 100); // Calcula el ISD
+            
+            const totalImpuestos = iva + isd;
+            const total = price + totalImpuestos + commission;
+
+            document.getElementById('result').innerHTML = `
+                <div>Precio del producto: $${price.toFixed(2)}</div>
+                <div>IVA del producto: $${iva.toFixed(2)}</div>
+                <div>ISD del producto: $${isd.toFixed(2)}</div>
+                <div>Comisión del producto: $${commission.toFixed(2)}</div>
+                <div>Suma de IVA + ISD: $${totalImpuestos.toFixed(2)}</div>
+                <div>Total (Producto + IVA + ISD + Comisión): $${total.toFixed(2)}</div>
+            `;
+        }
+    </script>
+</body>
+</html>
